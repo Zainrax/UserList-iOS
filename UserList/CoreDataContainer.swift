@@ -29,4 +29,14 @@ class CoreDataContainer {
     lazy var managedContext: NSManagedObjectContext = {
         return self.storeContainer.viewContext
     }()
+    
+    func saveContext () {
+        guard managedContext.hasChanges else {return}
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Unresolved Error \(error), \(error.userInfo)")
+        }
+    }
 }

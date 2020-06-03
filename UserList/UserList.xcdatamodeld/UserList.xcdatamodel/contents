@@ -9,11 +9,12 @@
     <entity name="UserData" representedClassName="UserData" syncable="YES">
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="gender" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="picture" optional="YES" attributeType="String"/>
         <relationship name="name" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
     </entity>
     <elements>
-        <element name="UserData" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="UserData" positionX="-63" positionY="-18" width="128" height="118"/>
         <element name="Name" positionX="99.9609375" positionY="-4.0625" width="128" height="103"/>
     </elements>
 </model>
