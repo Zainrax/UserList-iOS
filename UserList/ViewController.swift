@@ -9,11 +9,11 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    let userDataHandler: UserDataHandler = UserDataHandler()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
+        self.userDataHandler.fetchUsers()
     }
 
 
