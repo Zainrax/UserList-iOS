@@ -9,7 +9,7 @@
 protocol UserDataDelegate {
     var users: [UserData] {get}
     
-    func fetchUsers(completionHandler: @escaping ([UserData])-> Void?)
+    func fetchUsers()
     func saveUsers()
     func deleteUsers(users:[UserData])
 }
