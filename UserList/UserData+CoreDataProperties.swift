@@ -20,7 +20,6 @@ extension UserData {
     @NSManaged public var dateOfBirth: Date?
     @NSManaged public var picture: String?
     @NSManaged public var gender: String?
-    @NSManaged public var id: UUID?
     @NSManaged public var name: Name?
 
 }
