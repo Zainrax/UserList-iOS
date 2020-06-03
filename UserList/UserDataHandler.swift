@@ -15,12 +15,14 @@ class UserDataHandler: UserDataDelegate {
         let dbUserData = self.fetchUsersData()
     }
     
-    private func fetchUsersAPI() -> UserData {
-        return []
+    private func fetchUsersAPI() -> [UserData] {
+        let users: [UserData] = []
+        return users
     }
     
-    private func fetchUsersData() -> UserData {
-        return []
+    private func fetchUsersData() -> [UserData] {
+        let users: [UserData] = []
+        return users
     }
     
     public func saveUsers() {
