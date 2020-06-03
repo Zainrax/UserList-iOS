@@ -9,7 +9,9 @@
 protocol UserDataDelegate {
     var users: [UserData] {get}
     
-    func fetchUsers(completionHandler: ([UserData])-> Void)
-    func saveUsers()
-    func deleteUsers(users:[UserData])
+    public func fetchUsers(@escaping completionHandler: ([UserData])-> Void?)
+    public func saveUsers()
+    public func deleteUsers(users:[UserData])
+    private func fetchUsersAPI() -> UserData
+    private func fetchUsersData() -> UserData
 }

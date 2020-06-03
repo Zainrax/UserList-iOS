@@ -7,17 +7,27 @@
 //
 
 class UserDataHandler: UserDataDelegate {
+    
     var users:[UserData] = []
     
-    func fetchUsers(completionHandler: ([UserData]) -> Void) {
-        print("fetch")
+    public func fetchUsers(completionHandler: ([UserData]) -> Void?) {
+        let apiUserData = self.fetchUsersAPI()
+        let dbUserData = self.fetchUsersData()
     }
     
-    func saveUsers() {
+    private func fetchUsersAPI() -> UserData {
+        return []
+    }
+    
+    private func fetchUsersData() -> UserData {
+        return []
+    }
+    
+    public func saveUsers() {
         print("save")
     }
     
-    func deleteUsers(users:[UserData]) {
+    public func deleteUsers(users:[UserData]) {
         print("delete")
     }
 }
