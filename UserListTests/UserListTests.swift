@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import UserList
 
 class UserListTests: XCTestCase {
@@ -21,10 +22,21 @@ class UserListTests: XCTestCase {
         self.userDataHandler = nil
     }
 
-    func testUserDataFetch() throws {
+    func testUserDataHandlerFetch() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        self.userDataHandler.fetchUsers()
+        let total = self.userDataHandler.totalResults
+        XCTAssertEqual(self.userDataHandler.users.count, 0)
+        let expectation = XCTestExpectation(description: "Make API request to retrieve data")
+        
+        self.userDataHandler.fetchUsers({
+            XCTAssertLessThanOrEqual(self.userDataHandler.users.count, total)
+            expectation.fulfill()
+        })
+        wait(for:[expectation], timeout: 15.0)
     }
     
+    func testUserDataHandlerCoreData() throws {
+        XCTAssertNotNil(self.userDataHandler.dataContainer) 
+    }
 }
