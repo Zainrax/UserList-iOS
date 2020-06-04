@@ -23,9 +23,13 @@ public class Name: NSManagedObject, Decodable {
 
     
         self.init(entity: entity, insertInto: nil)
-        let values = try decoder.container(keyedBy: NameKeys.self)
-        title = try values.decode(String.self, forKey: .title)
-        first = try values.decode(String.self, forKey: .first)
-        last = try values.decode(String.self, forKey: .last)
+        do {
+            let values = try decoder.container(keyedBy: NameKeys.self)
+            title = try values.decode(String.self, forKey: .title)
+            first = try values.decode(String.self, forKey: .first)
+            last = try values.decode(String.self, forKey: .last)
+        } catch let error as NSError {
+            print("Name initilization error: \(error)")
+        }
     }
 }

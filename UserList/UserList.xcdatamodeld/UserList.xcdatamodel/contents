@@ -6,15 +6,21 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserData" inverseName="name" inverseEntity="UserData"/>
     </entity>
+    <entity name="Picture" representedClassName="Picture" syncable="YES">
+        <attribute name="largeURL" optional="YES" attributeType="String"/>
+        <attribute name="mediumURL" optional="YES" attributeType="String"/>
+        <attribute name="thumbnailURL" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserData" inverseName="picture" inverseEntity="UserData"/>
+    </entity>
     <entity name="UserData" representedClassName="UserData" syncable="YES">
         <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="gender" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="picture" optional="YES" attributeType="String"/>
         <relationship name="name" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
+        <relationship name="picture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture"/>
     </entity>
     <elements>
-        <element name="UserData" positionX="-63" positionY="-18" width="128" height="118"/>
         <element name="Name" positionX="99.9609375" positionY="-4.0625" width="128" height="103"/>
+        <element name="UserData" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="Picture" positionX="27" positionY="36" width="128" height="103"/>
     </elements>
 </model>

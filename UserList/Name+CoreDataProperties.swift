@@ -2,7 +2,7 @@
 //  Name+CoreDataProperties.swift
 //  UserList
 //
-//  Created by abra on 3/06/20.
+//  Created by abra on 4/06/20.
 //  Copyright © 2020 LogosEros. All rights reserved.
 //
 //
@@ -17,8 +17,9 @@ extension Name {
         return NSFetchRequest<Name>(entityName: "Name")
     }
 
-    @NSManaged public var title: String?
     @NSManaged public var first: String?
     @NSManaged public var last: String?
+    @NSManaged public var title: String?
+    @NSManaged public var user: UserData?
 
 }
