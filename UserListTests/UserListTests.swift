@@ -37,6 +37,16 @@ class UserListTests: XCTestCase {
     }
     
     func testUserDataHandlerCoreData() throws {
-        XCTAssertNotNil(self.userDataHandler.dataContainer) 
+        let expectation = XCTestExpectation(description: "Make API request to retrieve data for CoreData to save")
+        XCTAssertNotNil(self.userDataHandler.dataContainer)
+        XCTAssertEqual(self.userDataHandler.users.count, 0)
+        let users = self.userDataHandler.fetchUsersData()
+        XCTAssertEqual(users.count, 0)
+        self.userDataHandler.fetchUsers({
+            let users = self.userDataHandler.fetchUsersData()
+            XCTAssertEqual(users.count, self.userDataHandler.users.count)
+            expectation.fulfill()
+        })
+        wait(for:[expectation], timeout: 15.0)
     }
 }

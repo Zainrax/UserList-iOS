@@ -27,7 +27,7 @@ class UserDataHandler: UserDataDelegate {
     }
     
     public func fetchUsers(_ completionHandler: (()->Void)?) {
-        self.users = self.fetchUsersData()
+        self.users = self.fetchUsersData().filter{!self.users.contains($0)}
         self.fetchUsersAPI{ userData in
             self.users += userData.filter{!self.users.contains($0)}
             self.dataContainer.saveContext()
@@ -68,17 +68,21 @@ class UserDataHandler: UserDataDelegate {
         task.resume()
     }
     
-    private func fetchUsersData() -> [UserData]{
+    internal func fetchUsersData() -> [UserData]{
         let userFetch: NSFetchRequest<UserData> = UserData.fetchRequest()
         do {
             let results = try self.dataContainer.managedContext.fetch(userFetch)
-            self.users += results.filter{!self.users.contains($0)}
+            return results
         } catch let error as NSError{
             print("CoreData Fetch Error: \(error), \(error.userInfo)")
         }
+        return []
     }
     
     public func deleteUsers(users:[UserData]) {
+        self.users = self.users.filter{ user in
+            !users.contains(user)
+        }
         users.forEach{
             self.dataContainer.managedContext.delete($0)
         }
