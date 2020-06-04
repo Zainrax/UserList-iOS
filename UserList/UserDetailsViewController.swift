@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class UserDetailsViewController: UIViewController {
     let userDataHandler: UserDataHandler = UserDataHandler()
     override func viewDidLoad() {
         super.viewDidLoad()
