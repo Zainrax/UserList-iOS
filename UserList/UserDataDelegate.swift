@@ -9,7 +9,7 @@
 protocol UserDataDelegate {
     var users: [UserData] {get}
     
-    func fetchUsers()
+    func fetchUsers(_ completionHandler: (()->Void)?)
     func saveUsers()
     func deleteUsers(users:[UserData])
 }

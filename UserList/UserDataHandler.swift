@@ -26,11 +26,12 @@ class UserDataHandler: UserDataDelegate {
         }
     }
     
-    public func fetchUsers() {
+    public func fetchUsers(_ completionHandler: (()->Void)?) {
         self.fetchUsersData()
         self.fetchUsersAPI{ userData in
             self.users += userData.filter{!self.users.contains($0)}
             self.dataContainer.saveContext()
+            (completionHandler ?? {})()
         }
     }
     
