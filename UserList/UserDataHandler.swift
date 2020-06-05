@@ -11,11 +11,11 @@ import UIKit
 class UserDataHandler: UserDataDelegate {
     let dataContainer: CoreDataContainer = CoreDataContainer(model: "UserList")
     let apiDomain: String = "https://randomuser.me/api/"
+    let seed: String = "aaabbbccc"
+    let totalResults: Int = 5000
     var users:[UserData] = []
-    var totalResults: Int = 5000
     var page: Int = 1
     var fetchAmount: Int = 20
-    var seed: String = "aaabbbccc"
     
     enum ResultKeys: CodingKey {
         case results

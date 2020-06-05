@@ -13,7 +13,7 @@ class UserDetailsTableViewController: UITableViewController {
     let imageLoader: ImageLoader = ImageLoader()
     let df = DateFormatter()
     let paginationLimit: Int = 20
-    let leadingOnBatch: CGFloat = 2.0
+    let leadingOnBatch: CGFloat = 3.0
     var users: [UserData] = []
     var canFetch: Bool {
         if self.userDataHandler.users.count <= self.userDataHandler.totalResults {

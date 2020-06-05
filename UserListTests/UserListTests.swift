@@ -26,11 +26,13 @@ class UserListTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         let total = self.userDataHandler.totalResults
+        self.userDataHandler.deleteUsers(users: self.userDataHandler.users)
         XCTAssertEqual(self.userDataHandler.users.count, 0)
         let expectation = XCTestExpectation(description: "Make API request to retrieve data")
         
         self.userDataHandler.fetchUsers({
             XCTAssertLessThanOrEqual(self.userDataHandler.users.count, total)
+            XCTAssertLessThanOrEqual(self.userDataHandler.users.count, self.userDataHandler.fetchAmount * self.userDataHandler.page)
             expectation.fulfill()
         })
         wait(for:[expectation], timeout: 15.0)
@@ -38,6 +40,9 @@ class UserListTests: XCTestCase {
     
     func testUserDataHandlerCoreData() throws {
         let expectation = XCTestExpectation(description: "Make API request to retrieve data for CoreData to save")
+        
+        self.userDataHandler.deleteUsers(users: self.userDataHandler.users)
+        XCTAssertEqual(self.userDataHandler.users.count, 0)
         XCTAssertNotNil(self.userDataHandler.dataContainer)
         XCTAssertEqual(self.userDataHandler.users.count, 0)
         let users = self.userDataHandler.fetchUsersData()
