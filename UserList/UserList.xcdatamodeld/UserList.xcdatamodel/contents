@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Name" representedClassName="Name" syncable="YES">
-        <attribute name="first" optional="YES" attributeType="String"/>
-        <attribute name="last" optional="YES" attributeType="String"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="first" attributeType="String"/>
+        <attribute name="last" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserData" inverseName="name" inverseEntity="UserData"/>
     </entity>
     <entity name="Picture" representedClassName="Picture" syncable="YES">
-        <attribute name="largeURL" optional="YES" attributeType="String"/>
-        <attribute name="mediumURL" optional="YES" attributeType="String"/>
-        <attribute name="thumbnailURL" optional="YES" attributeType="String"/>
+        <attribute name="largeURL" attributeType="String"/>
+        <attribute name="mediumURL" attributeType="String"/>
+        <attribute name="thumbnailURL" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserData" inverseName="picture" inverseEntity="UserData"/>
     </entity>
     <entity name="UserData" representedClassName="UserData" syncable="YES">
-        <attribute name="dateOfBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="gender" optional="YES" attributeType="String"/>
-        <relationship name="name" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
-        <relationship name="picture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture"/>
+        <attribute name="dateOfBirth" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="gender" attributeType="String"/>
+        <relationship name="name" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
+        <relationship name="picture" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture"/>
     </entity>
     <elements>
         <element name="Name" positionX="99.9609375" positionY="-4.0625" width="128" height="103"/>
-        <element name="UserData" positionX="-63" positionY="-18" width="128" height="103"/>
         <element name="Picture" positionX="27" positionY="36" width="128" height="103"/>
+        <element name="UserData" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
 </model>

@@ -13,6 +13,9 @@ class UserDataHandler: UserDataDelegate {
     let apiDomain: String = "https://randomuser.me/api/"
     var users:[UserData] = []
     var totalResults: Int = 5000
+    var page: Int = 1
+    var fetchAmount: Int = 20
+    var seed: String = "aaabbbccc"
     
     enum ResultKeys: CodingKey {
         case results
@@ -44,7 +47,7 @@ class UserDataHandler: UserDataDelegate {
             return
         }
         decoder.userInfo[userKeyContext] = context
-        let urlString = apiDomain + "?results=\(totalResults)"
+        let urlString = apiDomain + "?results=\(fetchAmount)" + "&seed=\(seed)"
         guard let url = URL(string: urlString) else {
             print("Unable to get the url \(urlString)")
             return

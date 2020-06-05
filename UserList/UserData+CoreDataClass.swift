@@ -9,9 +9,11 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(UserData)
 public class UserData: NSManagedObject, Decodable {
+    
     enum UserKeys: String, CodingKey {
         case gender
         case dob
@@ -43,10 +45,12 @@ public class UserData: NSManagedObject, Decodable {
             gender = try values.decode(String.self, forKey: .gender)
             let dob = try dobValues.decode(String.self, forKey: .dateOfBirth)
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-mm-yy'T'HH:mm:ssZ"
-            dateOfBirth = dateFormatter.date(from: dob)
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            let date = dateFormatter.date(from: dob)!
+            dateOfBirth = date
             name = try values.decode( Name.self, forKey: .name)
             picture = try values.decode(Picture.self, forKey: .picture)
+            
         } catch let error as NSError {
             print("UserData initilazation error: \(error)")
         }

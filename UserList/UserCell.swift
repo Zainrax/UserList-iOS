@@ -9,16 +9,15 @@
 import UIKit
 
 class UserCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var gender: UILabel!
+    @IBOutlet weak var dob: UILabel!
+    var onReuse: () -> Void = {}
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        onReuse()
+        userImageView.image = nil
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
