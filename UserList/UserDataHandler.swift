@@ -31,8 +31,6 @@ class UserDataHandler: UserDataDelegate {
     
     init() {
         self.users = self.fetchUsersData()
-        self.deleteUsers(users: self.users)
-        self.users = []
         self.page = (self.users.count / fetchAmount) + 1
     }
     
@@ -46,7 +44,9 @@ class UserDataHandler: UserDataDelegate {
                     print("Fetch API core data error: \(error)")
                 }
             }
-            self.dataContainer.saveContext()
+//            DispatchQueue.global(qos: .utility).async {
+//                self.dataContainer.saveContext()
+//            }
             (completionHandler ?? {})()
         }
     }
@@ -55,35 +55,33 @@ class UserDataHandler: UserDataDelegate {
         let decoder = JSONDecoder()
         // Decoder needs CoreData context for UserData decoder
         let context = self.dataContainer.managedContext
-        DispatchQueue.global(qos: .utility).async {
-            guard let userKeyContext = CodingUserInfoKey.context else {
+        guard let userKeyContext = CodingUserInfoKey.context else {
+            return
+        }
+        decoder.userInfo[userKeyContext] = context
+        let urlString = self.apiDomain + "?page=\(self.page)"+"&results=\(self.fetchAmount)" + "&seed=\(self.seed)"
+        guard let url = URL(string: urlString) else {
+            print("Unable to get the url \(urlString)")
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { data, res, err in
+            if let err = err {
+                print("API Fetch Error: \(err)")
                 return
             }
-            decoder.userInfo[userKeyContext] = context
-            let urlString = self.apiDomain + "?page=\(self.page)"+"&results=\(self.fetchAmount)" + "&seed=\(self.seed)"
-            guard let url = URL(string: urlString) else {
-                print("Unable to get the url \(urlString)")
+            
+            
+            guard let httpResponse = res as? HTTPURLResponse, (httpResponse.statusCode >= 200) || (httpResponse.statusCode <= 299)else {
+                print("Http Response Error: \(res)" )
                 return
             }
-            let task = URLSession.shared.dataTask(with: url) { data, res, err in
-                if let err = err {
-                    print("API Fetch Error: \(err)")
-                    return
-                }
-                
-                guard let httpResponse = res as? HTTPURLResponse, (httpResponse.statusCode >= 200) || (httpResponse.statusCode <= 299)else {
-                    print("Http Response Error: \(res)" )
-                    return
-                }
-                
+            DispatchQueue.main.async {
                 if  let data = data, let usersData = try? decoder.decode(UserItems.self, from: data) {
-
                     completionHandler(usersData.results)
                 }
-                
             }
-            task.resume()
         }
+        task.resume()
         
     }
     

@@ -16,9 +16,10 @@ class UserDetailsTableViewController: UITableViewController {
     let paginationLimit: Int = 20
     let leadingOnBatch: CGFloat = 3.0
     var filteredUsers: [UserData] = []
+    var isFetching: Bool = false
     var canFetch: Bool {
         if self.userDataHandler.users.count <= self.userDataHandler.totalResults {
-            return true
+            return true && !isFetching
         }
         return false
     }
@@ -40,9 +41,7 @@ class UserDetailsTableViewController: UITableViewController {
         self.userDataHandler.fetchAmount = paginationLimit
         // Do any additional setup after loading the view.
         self.userDataHandler.fetchUsers({
-            DispatchQueue.main.sync {
                 self.tableView.reloadData()
-            }
         })
         df.dateFormat = "dd-MM-yyyy"
         self.filteredUsers = self.userDataHandler.users
@@ -100,10 +99,13 @@ class UserDetailsTableViewController: UITableViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
-        if offsetY > contentHeight - scrollView.frame.size.height * self.leadingOnBatch {
+        let diff = contentHeight - scrollView.frame.size.height * self.leadingOnBatch
+        if offsetY > diff {
             if canFetch {
                 self.userDataHandler.page += 1
+                self.isFetching = true
                 self.userDataHandler.fetchUsers({
+                    self.isFetching = false
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
