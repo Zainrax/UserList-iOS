@@ -32,4 +32,9 @@ public class Name: NSManagedObject, Decodable {
             print("Name initilization error: \(error)")
         }
     }
+    
+    func getFullName() -> String {
+        let shortTitle = title == "Madamoiselle" ? "Mlle" : title
+        return "\(shortTitle ?? ""). \(first ?? "") \(last ?? "")"
+    }
 }

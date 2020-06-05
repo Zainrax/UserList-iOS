@@ -44,7 +44,6 @@ class UserListTests: XCTestCase {
         self.userDataHandler.deleteUsers(users: self.userDataHandler.users)
         XCTAssertEqual(self.userDataHandler.users.count, 0)
         XCTAssertNotNil(self.userDataHandler.dataContainer)
-        XCTAssertEqual(self.userDataHandler.users.count, 0)
         let users = self.userDataHandler.fetchUsersData()
         XCTAssertEqual(users.count, 0)
         self.userDataHandler.fetchUsers({

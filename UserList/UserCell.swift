@@ -16,8 +16,7 @@ class UserCell: UITableViewCell {
     var onReuse: () -> Void = {}
     
     override func prepareForReuse() {
-        super.prepareForReuse()
-        onReuse()
         userImageView.image = nil
+        userImageView.cancelImageLoad()
     }
 }

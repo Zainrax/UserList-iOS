@@ -10,6 +10,7 @@
 		642BF1312488E3CF0046F54D /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642BF1302488E3CF0046F54D /* UsersViewController.swift */; };
 		642BF133248908730046F54D /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642BF132248908730046F54D /* ImageLoader.swift */; };
 		642BF13524890CF10046F54D /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642BF13424890CF10046F54D /* UserCell.swift */; };
+		642C3A03248A162300B4155B /* UIImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642C3A02248A162300B4155B /* UIImageLoader.swift */; };
 		6433D4862488C37D008779D8 /* Picture+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6433D4842488C37D008779D8 /* Picture+CoreDataClass.swift */; };
 		6433D4872488C37D008779D8 /* Picture+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6433D4852488C37D008779D8 /* Picture+CoreDataProperties.swift */; };
 		6448FAA1248776AB00D241E4 /* UserDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6448FAA0248776AB00D241E4 /* UserDataHandler.swift */; };
@@ -51,6 +52,7 @@
 		642BF1302488E3CF0046F54D /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		642BF132248908730046F54D /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		642BF13424890CF10046F54D /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		642C3A02248A162300B4155B /* UIImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageLoader.swift; sourceTree = "<group>"; };
 		6433D4842488C37D008779D8 /* Picture+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Picture+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6433D4852488C37D008779D8 /* Picture+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Picture+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6448FAA0248776AB00D241E4 /* UserDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataHandler.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				6448FAA0248776AB00D241E4 /* UserDataHandler.swift */,
 				642BF132248908730046F54D /* ImageLoader.swift */,
+				642C3A02248A162300B4155B /* UIImageLoader.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				642BF133248908730046F54D /* ImageLoader.swift in Sources */,
 				6433D4862488C37D008779D8 /* Picture+CoreDataClass.swift in Sources */,
 				642BF1312488E3CF0046F54D /* UsersViewController.swift in Sources */,
+				642C3A03248A162300B4155B /* UIImageLoader.swift in Sources */,
 				6448FAA1248776AB00D241E4 /* UserDataHandler.swift in Sources */,
 				6448FAA3248776D200D241E4 /* UserDataDelegate.swift in Sources */,
 				6433D4872488C37D008779D8 /* Picture+CoreDataProperties.swift in Sources */,

@@ -9,12 +9,13 @@
 import UIKit
 
 class UserDetailsTableViewController: UITableViewController {
+    let searchController = UISearchController(searchResultsController: nil)
     let userDataHandler: UserDataHandler = UserDataHandler()
     let imageLoader: ImageLoader = ImageLoader()
     let df = DateFormatter()
     let paginationLimit: Int = 20
     let leadingOnBatch: CGFloat = 3.0
-    var users: [UserData] = []
+    var filteredUsers: [UserData] = []
     var canFetch: Bool {
         if self.userDataHandler.users.count <= self.userDataHandler.totalResults {
             return true
@@ -23,18 +24,12 @@ class UserDetailsTableViewController: UITableViewController {
     }
     
     var isSearchEmpty: Bool {
-        guard let searchBar = self.tableView.tableHeaderView as? UISearchBar else {
-            print("Could not find search bar")
-            return false
-        }
-      return searchBar.text?.isEmpty ?? true
+        let searchBar = self.searchController.searchBar
+        return searchBar.text?.isEmpty ?? true
     }
     
     var inSearch: Bool {
-        guard let searchBar = self.tableView.tableHeaderView as? UISearchBar else {
-            print("Could not find search bar")
-            return false
-        }
+        let searchBar = self.searchController.searchBar
         let searching = searchBar.selectedScopeButtonIndex != 0
       return !isSearchEmpty || searching
     }
@@ -49,15 +44,16 @@ class UserDetailsTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         })
-        self.users = self.userDataHandler.users
         df.dateFormat = "dd-MM-yyyy"
-    
-        let searchController = UISearchController(searchResultsController: self)
+        self.filteredUsers = self.userDataHandler.users
         searchController.delegate = self
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Users"
+        searchController.searchBar.scopeButtonTitles = ["All", "Male", "Female"]
+        searchController.searchBar.delegate = self
         self.tableView.tableHeaderView = searchController.searchBar
-        definesPresentationContext = false
+        definesPresentationContext = true
         
         self.tableView.reloadData()
     }
@@ -66,39 +62,26 @@ class UserDetailsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return self.userDataHandler.users.count
+        if inSearch {
+            return self.filteredUsers.count
+        } else {
+            return self.userDataHandler.users.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath) as! UserCell
         let user: UserData
         if inSearch {
-            user = self.users[indexPath.row]
+            user = self.filteredUsers[indexPath.row]
         } else {
             user = self.userDataHandler.users[indexPath.row]
         }
         if let name = user.name {
-            var title = name.title!
-            title = title == "Madamoiselle" ? "Mlle" : title
-            let fullName = "\(title). \(name.first!) \(name.last!)"
-            cell.name.text = fullName
+            cell.name.text = name.getFullName()
         }
         if let image = user.picture, let url = URL(string: image.thumbnailURL!) {
-            let requestToken = imageLoader.loadImage(url) { result in
-                do {
-                    let image = try result.get()
-                    DispatchQueue.main.async {
-                        cell.imageView?.image = image
-                    }
-                } catch let error as NSError {
-                    print("Load Image error: \(error)")
-                }
-            }
-            cell.onReuse = {
-                if let requestToken = requestToken {
-                    self.imageLoader.cancelLoad(requestToken)
-                }
-            }
+            cell.userImageView.loadImage(at: url)
         }
         if let dob = user.dateOfBirth {
             cell.dob.text = df.string(from: dob)
@@ -121,8 +104,21 @@ class UserDetailsTableViewController: UITableViewController {
             if canFetch {
                 self.userDataHandler.page += 1
                 self.userDataHandler.fetchUsers({
-                    self.tableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 })
+            }
+        }
+    }
+    
+    func filterUsersForSearch(searchText: String, scope: String) {
+        filteredUsers = self.userDataHandler.users.filter { user in
+            let inScope = scope == "All" || user.gender!.lowercased() == scope.lowercased()
+            if isSearchEmpty {
+                return inScope
+            } else {
+                return user.name!.getFullName().lowercased().contains(searchText.lowercased()) && inScope
             }
         }
     }
@@ -130,6 +126,20 @@ class UserDetailsTableViewController: UITableViewController {
 
 extension UserDetailsTableViewController: UISearchControllerDelegate, UISearchResultsUpdating  {
     func updateSearchResults(for searchController: UISearchController) {
-        
+        tableView.reloadData()
+    }
+}
+
+extension UserDetailsTableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterUsersForSearch(searchText: searchBar.text!, scope: scope)
+        tableView.reloadData()
+    }
+
+    func searchBar(_ searchBar: UISearchBar,  textDidChange: String) {
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterUsersForSearch(searchText: searchBar.text!, scope: scope)
+        tableView.reloadData()
     }
 }
