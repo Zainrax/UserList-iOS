@@ -21,7 +21,7 @@ public class Picture: NSManagedObject, Decodable {
     guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
         guard let entity = NSEntityDescription.entity(forEntityName: "Picture", in: context) else { fatalError() }
     
-        self.init(entity: entity, insertInto: nil)
+        self.init(entity: entity, insertInto: context)
         do {
             let values = try decoder.container(keyedBy: PictureKeys.self)
             thumbnailURL = try values.decode(String.self, forKey: .thumbnail)

@@ -42,7 +42,7 @@ class UserDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.dataSource = self
-        self.userDataHandler.totalResults = paginationLimit
+        self.userDataHandler.fetchAmount = paginationLimit
         // Do any additional setup after loading the view.
         self.userDataHandler.fetchUsers({
             DispatchQueue.main.sync {

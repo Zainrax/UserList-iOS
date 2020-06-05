@@ -36,7 +36,7 @@ public class UserData: NSManagedObject, Decodable {
     required convenience public init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
             guard let entity = NSEntityDescription.entity(forEntityName: "UserData", in: context) else { fatalError() }
-        self.init(entity: entity, insertInto: nil)
+        self.init(entity: entity, insertInto: context)
         // Read https://randomuser.me/documentation for json struct.
         do {
             let values = try decoder.container(keyedBy: UserKeys.self)

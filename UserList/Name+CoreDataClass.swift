@@ -22,7 +22,7 @@ public class Name: NSManagedObject, Decodable {
         guard let entity = NSEntityDescription.entity(forEntityName: "Name", in: context) else { fatalError() }
 
     
-        self.init(entity: entity, insertInto: nil)
+        self.init(entity: entity, insertInto: context)
         do {
             let values = try decoder.container(keyedBy: NameKeys.self)
             title = try values.decode(String.self, forKey: .title)

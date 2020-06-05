@@ -29,10 +29,21 @@ class UserDataHandler: UserDataDelegate {
         }
     }
     
+    init() {
+        self.users = self.fetchUsersData()
+        self.page = (self.users.count / fetchAmount) + 1
+    }
+    
     public func fetchUsers(_ completionHandler: (()->Void)?) {
-        self.users = self.fetchUsersData().filter{!self.users.contains($0)}
         self.fetchUsersAPI{ userData in
             self.users += userData.filter{!self.users.contains($0)}
+            if let user = self.users.first, let context = user.managedObjectContext {
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Fetch API core data error: \(error)")
+                }
+            }
             self.dataContainer.saveContext()
             (completionHandler ?? {})()
         }
@@ -43,11 +54,10 @@ class UserDataHandler: UserDataDelegate {
         // Decoder needs CoreData context for UserData decoder
         let context = self.dataContainer.managedContext
         guard let userKeyContext = CodingUserInfoKey.context else {
-            
             return
         }
         decoder.userInfo[userKeyContext] = context
-        let urlString = apiDomain + "?results=\(fetchAmount)" + "&seed=\(seed)"
+        let urlString = apiDomain + "?page=\(page)"+"&results=\(fetchAmount)" + "&seed=\(seed)"
         guard let url = URL(string: urlString) else {
             print("Unable to get the url \(urlString)")
             return
@@ -64,6 +74,11 @@ class UserDataHandler: UserDataDelegate {
             }
             
             if  let data = data, let usersData = try? decoder.decode(UserItems.self, from: data) {
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Could not save userdata:\(error)")
+                }
                 completionHandler(usersData.results)
             }
             
