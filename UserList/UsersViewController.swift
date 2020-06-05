@@ -16,7 +16,6 @@ class UsersViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var age: UILabel!
     @IBOutlet weak var dob: UILabel!
     @IBOutlet weak var location: UILabel!
-    @IBOutlet weak var map: MKMapView!
     
     var userData: UserData?
      
@@ -31,12 +30,11 @@ class UsersViewController: UIViewController, MKMapViewDelegate {
         }
         name.text = user.name!.getFullName()
         gender.text = user.gender!
-        dob.text = user.getDateString()
+        dob.text = "DoB: \(user.getDateString())"
         location.text = user.location!.getFullAddress()
-        map.delegate = self
+        age.text = "Age: \(user.getAge())"
         displayImage.layer.cornerRadius = displayImage.frame.width / 2
         displayImage.clipsToBounds = true
         // Do any additional setup after loading the view.
     }
-
 }

@@ -59,7 +59,7 @@ public class UserData: NSManagedObject, Decodable {
     
     func getAge() -> Int {
         let calender = Calendar.current
-        let components = calender.dateComponents([.day,.month,.year], from: self.dateOfBirth!)
+        let components = calender.dateComponents([.day,.month,.year], from: self.dateOfBirth!, to: Date())
         return components.year ?? 0
     }
 }
