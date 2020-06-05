@@ -21,5 +21,6 @@ extension UserData {
     @NSManaged public var gender: String?
     @NSManaged public var name: Name?
     @NSManaged public var picture: Picture?
+    @NSManaged public var location: Location?
 
 }

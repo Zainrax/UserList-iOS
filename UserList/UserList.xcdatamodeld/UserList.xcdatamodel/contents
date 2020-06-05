@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Location" representedClassName="Location" syncable="YES">
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="street" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserData" inverseName="location" inverseEntity="UserData"/>
+    </entity>
     <entity name="Name" representedClassName="Name" syncable="YES">
         <attribute name="first" attributeType="String"/>
         <attribute name="last" attributeType="String"/>
@@ -15,12 +22,14 @@
     <entity name="UserData" representedClassName="UserData" syncable="YES">
         <attribute name="dateOfBirth" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="gender" attributeType="String"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="user" inverseEntity="Location"/>
         <relationship name="name" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
         <relationship name="picture" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture"/>
     </entity>
     <elements>
         <element name="Name" positionX="99.9609375" positionY="-4.0625" width="128" height="103"/>
         <element name="Picture" positionX="27" positionY="36" width="128" height="103"/>
-        <element name="UserData" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="UserData" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Location" positionX="18" positionY="45" width="128" height="118"/>
     </elements>
 </model>

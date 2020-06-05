@@ -31,6 +31,8 @@ class UserDataHandler: UserDataDelegate {
     
     init() {
         self.users = self.fetchUsersData()
+        // Used for testing & adding entities to coredata
+//        self.deleteUsers(users: self.users)
         self.page = (self.users.count / fetchAmount) + 1
     }
     

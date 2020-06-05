@@ -12,7 +12,6 @@ class UserDetailsTableViewController: UITableViewController {
     let searchController = UISearchController(searchResultsController: nil)
     let userDataHandler: UserDataHandler = UserDataHandler()
     let imageLoader: ImageLoader = ImageLoader()
-    let df = DateFormatter()
     let paginationLimit: Int = 20
     let leadingOnBatch: CGFloat = 3.0
     var filteredUsers: [UserData] = []
@@ -43,7 +42,6 @@ class UserDetailsTableViewController: UITableViewController {
         self.userDataHandler.fetchUsers({
                 self.tableView.reloadData()
         })
-        df.dateFormat = "dd-MM-yyyy"
         self.filteredUsers = self.userDataHandler.users
         searchController.delegate = self
         searchController.searchResultsUpdater = self
@@ -82,13 +80,10 @@ class UserDetailsTableViewController: UITableViewController {
         if let image = user.picture, let url = URL(string: image.thumbnailURL!) {
             cell.userImageView.loadImage(at: url)
         }
-        if let dob = user.dateOfBirth {
-            cell.dob.text = df.string(from: dob)
-        }
         if let gender = user.gender {
             cell.gender.text = gender
         }
-        
+        cell.dob.text = user.getDateString()
       return cell
     }
     
@@ -111,6 +106,12 @@ class UserDetailsTableViewController: UITableViewController {
                     }
                 })
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? UsersViewController, let row = self.tableView.indexPathForSelectedRow?.row {
+            destination.userData = self.userDataHandler.users[row]
         }
     }
     

@@ -13,24 +13,19 @@ import UIKit
 
 @objc(UserData)
 public class UserData: NSManagedObject, Decodable {
-    
+    let df = DateFormatter()
     enum UserKeys: String, CodingKey {
         case gender
         case dob
         case id
         case name
         case picture
+        case location
     }
 
     enum  DobKeys: String, CodingKey {
         case dateOfBirth = "date"
         case age
-    }
-    
-    enum PictureKeys: String, CodingKey {
-        case thumbnai
-        case medium
-        case large
     }
     
     required convenience public init(from decoder: Decoder) throws {
@@ -50,10 +45,22 @@ public class UserData: NSManagedObject, Decodable {
             dateOfBirth = date
             name = try values.decode( Name.self, forKey: .name)
             picture = try values.decode(Picture.self, forKey: .picture)
+            location = try values.decode(Location.self, forKey: .location)
             
         } catch let error as NSError {
             print("UserData initilazation error: \(error)")
         }
+    }
+    
+    func getDateString() -> String {
+        df.dateFormat = "dd-MM-yyyy"
+        return df.string(from: self.dateOfBirth!)
+    }
+    
+    func getAge() -> Int {
+        let calender = Calendar.current
+        let components = calender.dateComponents([.day,.month,.year], from: self.dateOfBirth!)
+        return components.year ?? 0
     }
 }
 
